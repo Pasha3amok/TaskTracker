@@ -9,6 +9,7 @@ import {MatFormFieldModule, MatLabel} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonModule} from '@angular/material/button';
+import { ReactiveFormsModule } from "@angular/forms";
 
 const routes: Routes = [{
 	path: 'login',
@@ -28,6 +29,7 @@ const routes: Routes = [{
     MatLabel,
     MatInputModule,
     MatSelectModule,
+    ReactiveFormsModule,
 	RouterModule.forChild(routes)
   ],
   declarations: [LoginComponent,RegistrationComponent]
