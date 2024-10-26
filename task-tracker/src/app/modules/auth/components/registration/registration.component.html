@@ -1,10 +1,10 @@
 <div class="form">
-  <h1>Login</h1>
+  <h1>Registration</h1>
   <form role="group" [formGroup]="form" (submit)="submit()">
     <mat-form-field>
       <mat-label>E-mail</mat-label>
-      <input formControlName="eMail" matInput>
-      <mat-error>{{getErrorMessage("eMail")}}</mat-error>
+      <input formControlName="email" matInput>
+      <mat-error>{{getErrorMessage("email")}}</mat-error>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Login</mat-label>

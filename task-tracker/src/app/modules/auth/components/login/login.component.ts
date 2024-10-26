@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl,FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
-
+import {formFieldTypes} from '../../types';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
     console.log(this.form.controls)
    }
 
-   public getErrorMessage(fieldName: "eMail" | "password"):string{
+   public getErrorMessage(fieldName: formFieldTypes):string{
 
      const field: AbstractControl = this.form.controls[fieldName];
      const isRequired: boolean = field?.errors?.["required"];
@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
 
   private initForm():void{
     this.form = new FormGroup<any>({
-      eMail: new FormControl(null,[Validators.required, Validators.email]),
+      email: new FormControl(null,[Validators.required, Validators.email]),
       password: new FormControl(null,[Validators.required, Validators.minLength(5)]),
     }
     );
