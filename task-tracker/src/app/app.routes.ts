@@ -8,4 +8,8 @@ export const routes: Routes = [{
 {
 	path: 'auth',
 	loadChildren: () => import('./modules/auth/auth.module').then(mod => mod.AuthModule)
+},
+{
+	path: 'task-tracker',
+	loadChildren: () => import('./modules/task-tracker/task-tracker.module').then(mod => mod.TaskTrackerModule)
 }];

@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormControl,FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import {formFieldTypes} from '../../types';
@@ -13,7 +14,10 @@ export class RegistrationComponent implements OnInit {
 
   public form:FormGroup;
 
-  constructor(private matSnackBar:MatSnackBar) {
+  constructor(
+    private matSnackBar:MatSnackBar,
+    private router:Router
+  ){
     this.initForm();
    }
 
@@ -26,7 +30,9 @@ export class RegistrationComponent implements OnInit {
     }
 
     window.localStorage.setItem(login, JSON.stringify(userData))
+
     this.matSnackBar.open('Succes', 'Ok');
+    this.router.navigate(['./task-tracker']);
    }
 
    public getErrorMessage(fieldName: formFieldTypes):string{
