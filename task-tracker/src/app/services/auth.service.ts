@@ -1,12 +1,13 @@
-import { Inject } from "@angular/core";
+import { Inject, Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { UserRegisterData } from "../interfaces";
 
-@Inject({providedIn: 'root'})
+@Injectable({providedIn: 'root'})
 export class AuthService{
 
   public isAuth$:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
+  public activeUser: UserRegisterData;
   /**
    *
    */
@@ -15,11 +16,16 @@ export class AuthService{
 
   }
 
-  private checkIsAuth(): void {
-    const users: UserRegisterData[] = !!window.localStorage.getItem('users')
+  public getUsers(): UserRegisterData[]{
+    return !!window.localStorage.getItem('users')
     ? JSON.parse(window.localStorage.getItem('users') || '')
     : [];
-    this.isAuth$.next( users.length ? !!users.find((user: UserRegisterData) => user.isAuth)
-    : false);
+  }
+
+  private checkIsAuth(): void {
+    const activeUser: UserRegisterData | undefined | null = this.getUsers().length ? this.getUsers().find((user: UserRegisterData) => user.isAuth) : null;
+    this.activeUser = activeUser as UserRegisterData;
+
+    this.isAuth$.next(!!activeUser);
   }
 }
