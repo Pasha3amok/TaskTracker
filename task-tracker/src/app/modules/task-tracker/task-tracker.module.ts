@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { TaskTrackerComponent } from './components';
+import { NgFor, CommonModule, NgIf } from '@angular/common';
+import { TaskTrackerComponent, TaskTrakerListComponent } from './components';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatGridListModule } from "@angular/material/grid-list";
 import {MatSelectModule} from '@angular/material/select';
@@ -15,7 +15,7 @@ const routes: Routes = [{
 }];
 
 @NgModule({
-  declarations: [TaskTrackerComponent],
+  declarations: [TaskTrackerComponent,TaskTrakerListComponent],
   imports: [
     CommonModule,
     MatFormFieldModule,
@@ -24,6 +24,8 @@ const routes: Routes = [{
     ReactiveFormsModule,
     MatInputModule,
     MatButton,
+    NgFor,
+    NgIf,
     RouterModule.forChild(routes)
   ]
 })
