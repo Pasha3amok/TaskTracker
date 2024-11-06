@@ -7,7 +7,7 @@ export class AuthService{
 
   public isAuth$:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  public activeUser: UserRegisterData;
+  public activeUser: UserRegisterData | null;
   /**
    *
    */

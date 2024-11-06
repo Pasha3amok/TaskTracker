@@ -1,3 +1,6 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserRegisterData } from './../../../../interfaces/user-register-data.interface';
+import { AuthService } from './../../../../services/auth.service';
 import { routes } from './../../../../app.routes';
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { FormControl,FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
@@ -15,25 +18,37 @@ export class LoginComponent implements OnInit {
   public form:FormGroup;
   router = inject(Router);
 
-  constructor() {
+  constructor(
+    private authService: AuthService,
+    private matSnackBar: MatSnackBar) {
     this.initForm();
    }
 
    public submit():void{
-    const login:string = this.form.value.login;
-    const isLocalData = window.localStorage.getItem(login);
-    if (isLocalData != null) {
-      const users = JSON.parse(isLocalData);
+    const users: UserRegisterData[] = this.authService.getUsers();
+    const user: UserRegisterData | undefined = users.find((userData: UserRegisterData) => userData.email === this.form.value.email)
 
-      const isUserFound = users.find((m:any) => m.email == this.form.value.email && m.password == this.form.value.password)
-      if (isUserFound != undefined) {
-        this.router.navigate(['./task-tracker']);
-      } else{
-        alert("User name or password is wrong");
-      }
-    } else {
-      alert("No user found");
+    if (!user) {
+      this.matSnackBar.open('User not found', 'OK')
+      return;
     }
+
+    if (this.form.value.password !== user?.password) {
+      this.matSnackBar.open('Check your password','OK');
+      return;
+    }
+
+    users.map((userRegisterData: UserRegisterData) => {
+      if (userRegisterData.login === user?.login) {
+        userRegisterData.isAuth = true;
+      }
+    })
+    window.localStorage.setItem('users', JSON.stringify(users));
+
+    this.matSnackBar.open('Success');
+    this.router.navigateByUrl('task-tracker');
+    this.authService.isAuth$.next(true);
+    this.authService.activeUser = user;
    }
 
    public getErrorMessage(fieldName: formFieldTypes):string{

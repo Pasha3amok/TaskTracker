@@ -2,14 +2,25 @@ import { AuthService } from './services/auth.service';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { MatButton } from '@angular/material/button';
+import {MatDividerModule} from '@angular/material/divider';
 import { UserRegisterData } from './interfaces';
 import { Observable } from 'rxjs';
 import { NgIf, CommonModule } from '@angular/common';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
 	selector: 'app-root',
 	standalone: true,
-	imports: [CommonModule,RouterOutlet, MatButton, RouterLink,NgIf],
+	imports: [
+    CommonModule,
+    RouterOutlet,
+    MatButton,
+    RouterLink,
+    NgIf,
+    MatFormFieldModule,
+    MatDividerModule,
+    MatIconModule],
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -33,7 +44,7 @@ export class AppComponent {
   public logout(){
     const users: UserRegisterData[] = this.authService.getUsers();
     users.map((user:UserRegisterData):void =>{
-      if (user.login == this.authService.activeUser.login) {
+      if (user.login == this.authService.activeUser!.login) {
         user.isAuth = false;
       }
     });

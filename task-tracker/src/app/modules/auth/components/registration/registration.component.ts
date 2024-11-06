@@ -26,26 +26,21 @@ export class RegistrationComponent implements OnInit {
 
    public submit():void{
     const login:string = this.form.value.login;
-    const isLocalData = window.localStorage.getItem(login);
     const userData: UserRegisterData = {
       email: this.form.value.email,
       password: this.form.value.password,
       login,
       isAuth: true
     }
-    if (isLocalData != null) {
-      const localArray = JSON.parse(isLocalData);
-      localArray.push(userData);
-      window.localStorage.setItem(login, JSON.stringify(localArray))
-    } else {
-      const localArray = [];
-      localArray.push(userData);
-      window.localStorage.setItem(login, JSON.stringify(localArray))
-    }
+    const users: UserRegisterData[] = this.authService.getUsers();
+    users.push(userData);
+
+    window.localStorage.setItem('users', JSON.stringify(users));
 
     this.matSnackBar.open('Succes', 'Ok');
     this.router.navigate(['./task-tracker']);
     this.authService.isAuth$.next(true);
+    this.authService.activeUser = userData;
    }
 
    public getErrorMessage(fieldName: formFieldTypes):string{
